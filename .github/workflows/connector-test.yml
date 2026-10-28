@@ -1,0 +1,28 @@
+# Test workflow for the Pivotly GitHub connector (#7594).
+# Runs only when started by hand (workflow_dispatch); uploads a tiny artifact.
+name: Connector test
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: "A message the run prints"
+        required: false
+        default: "hello from Pivotly"
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print the message
+        env:
+          MESSAGE: ${{ inputs.message }}
+        run: echo "Message: $MESSAGE"
+      - name: Make a small file
+        run: echo "connector test artifact" > result.txt
+      - name: Upload it
+        uses: actions/upload-artifact@v4
+        with:
+          name: connector-test-result
+          path: result.txt
+          retention-days: 3
