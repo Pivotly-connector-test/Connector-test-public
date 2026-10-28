@@ -17,7 +17,8 @@ jobs:
       - name: Print the message
         env:
           MESSAGE: ${{ inputs.message }}
-        run: echo "Message: $MESSAGE"
+        run: |
+          echo "Message: $MESSAGE"
       - name: Make a small file
         run: echo "connector test artifact" > result.txt
       - name: Upload it
